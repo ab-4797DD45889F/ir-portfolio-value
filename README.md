@@ -2,7 +2,9 @@
 
 Requests your portfolio (a set of accounts/wallets) from the IR account and estimates portfolio value as if you sold out everything with market sell orders.
 
-## Sample output
+Please use only api keys with read-only privileges. 
+
+## Sample Output
 
 ```
 Requesting valid primary currencies... Xbt, Eth, Xrp, Usdc, Usdt, Aave, Ada, Bat, Bch, Comp, Dai, Doge, Dot, Eos, Etc, Grt, Link, Ltc, Mana, Matic, Mkr, Sand, Snx, Sol, Uni, Xlm, Yfi, Zrx
@@ -29,3 +31,9 @@ Portfolio as of (1/10/2024 10:19:22 AM +06:00):
 
  $4,692.25 | Total
 ```
+
+
+## To Do
+
+- Move config to command line arguments
+- Wrap it to docker, so that we could run this command from docker environment
