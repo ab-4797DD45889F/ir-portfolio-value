@@ -7,7 +7,11 @@ You need to generate an api key here https://portal.independentreserve.com/setti
 :warning: **WARNING**: Use only `Read Only` api key type. 
 
 ```
-$ docker run -it --rm ghcr.io/ab-4797dd45889f/ir-portfolio-value:latest --key aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee --secret xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --currency Aud
+$ docker run -it --rm 
+    ghcr.io/ab-4797dd45889f/ir-portfolio-value:latest \
+    --key aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee \
+    --secret xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx \
+    --currency Aud
 ```
 
 ## Sample Output
