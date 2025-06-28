@@ -17,29 +17,39 @@ $ docker run -it --rm
 ## Sample Output
 
 ```
-Requesting valid primary currencies... Xbt, Eth, Xrp, Usdc, Usdt, Aave, Ada, Bat, Bch, Comp, Dai, Doge, Dot, Eos, Etc, Grt, Link, Ltc, Mana, Matic, Mkr, Sand, Snx, Sol, Uni, Xlm, Yfi, Zrx
+Requesting valid primary currencies... Xbt, Eth, Sol, Xrp, Usdc, Usdt, Aave, Ada, Bat, Bch, Comp, Dai, Doge, Dot, Eos, Etc, Grt, Link, Ltc, Mana, Matic, Mkr, Sand, Snx, Uni, Xlm, Yfi, Zrx
 Requesting valid secondary currencies... Aud, Usd, Nzd, Sgd
-Requesting accounts... 39 accounts received
-Requesting Xbt order book... 300 sell orders received
-Requesting Eth order book... 238 sell orders received
-Requesting Usdt order book... 71 sell orders received
-Requesting Bch order book... 108 sell orders received
+Requesting accounts... 45 accounts received
+Requesting FX rates... 30 FX rates received
+FX: 2.0 Usd -> 3.05 Aud (rate: 1.5233)
+Requesting Xbt order book... 526 sell orders received
+Requesting Eth order book... 455 sell orders received
+Requesting Sol order book... 327 sell orders received
+Requesting Xrp order book... 576 sell orders received
+Requesting Usdt order book... 224 sell orders received
+Requesting Ada order book... 353 sell orders received
+Requesting Bch order book... 121 sell orders received
+Requesting Doge order book... 252 sell orders received
+Requesting Dot order book... 205 sell orders received
 Omg 0.615737683357038694 doesn't look like supported primary or secondary currency, ignoring
-Requesting Sol order book... 97 sell orders received
-Requesting Zrx order book... 80 sell orders received
+Requesting Zrx order book... 178 sell orders received
 
-Portfolio as of (1/10/2024 10:19:22 AM +06:00):
+Portfolio as of (6/28/2025 1:36:11 PM +06:00):
 
- $2,754.72 | Xbt 0.03992454
- $1,383.75 | Eth 0.392836059493919099
-   $329.72 | Aud 329.72
-   $147.12 | Sol 0.98629
-    $76.60 | Usdt 51.273469
-     $0.33 | Bch 0.0009
+ $1,285.49 | Xbt 0.00781041
+   $908.58 | Eth 0.244244469493919099
+   $553.60 | Sol 2.48129
+   $446.66 | Xrp 133.26091
+   $295.48 | Ada 342.65614
+   $256.20 | Doge 1027.69553
+     $6.27 | Dot 1.2
+     $3.05 | Usd 2.0
+     $0.71 | Bch 0.0009
+     $0.00 | Usdt 0.000009
      $0.00 | Zrx 0.0000054
      $0.00 | Omg 0.615737683357038694
 
- $4,692.25 | Total
+ $3,756.04 | Total
 ```
 
 
