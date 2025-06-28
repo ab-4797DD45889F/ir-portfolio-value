@@ -10,6 +10,7 @@ public class PortfolioService(IrPortfolioValueConfiguration configuration)
     private Client? _irClient;
     private HashSet<CurrencyCode>? _primaryCurrencies;
     private HashSet<CurrencyCode>? _secondaryCurrencies;
+    private IEnumerable<FxRate>? _fxRates;
 
     /// <summary>
     /// Gets accounts, calculates their market values and returns as a Portfolio object.
@@ -159,12 +160,80 @@ public class PortfolioService(IrPortfolioValueConfiguration configuration)
 
     private async Task<CurrencyAmount> GetFiatValue(AccountWrapper account)
     {
-        if (account.Original.CurrencyCode != configuration.Currency)
+        if (account.Original.CurrencyCode == configuration.Currency)
         {
-            // todo: support fx rate conversion
-            throw new Exception($"Can't calculate {configuration.Currency} value for {account.Total()}, fx is not implemented yet");
+            return account.Total();
         }
 
-        return account.Total();
+        // Get FX rate for conversion
+        var fxRate = await GetFxRate(account.Original.CurrencyCode, configuration.Currency);
+        if (fxRate == null)
+        {
+            Console.WriteLine($"Warning: No FX rate found for {account.Original.CurrencyCode} to {configuration.Currency}, using 0 value");
+            return 0m.Currency(configuration.Currency);
+        }
+
+        var originalAmount = account.Total().Amount;
+        var convertedValue = originalAmount * fxRate.Rate;
+        Console.WriteLine($"FX: {originalAmount} {account.Original.CurrencyCode} -> {convertedValue:F2} {configuration.Currency} (rate: {fxRate.Rate:F4})");
+        return convertedValue.Currency(configuration.Currency);
+    }
+
+    private async Task<FxRate?> GetFxRate(CurrencyCode fromCurrency, CurrencyCode toCurrency)
+    {
+        await LoadFxRatesIfNecessary();
+
+        if (_fxRates == null)
+        {
+            return null;
+        }
+
+        // Look for direct rate: fromCurrency -> toCurrency
+        var directRate = _fxRates.FirstOrDefault(r => 
+            r.CurrencyCodeA == fromCurrency.ToString() && r.CurrencyCodeB == toCurrency.ToString());
+        
+        if (directRate != null)
+        {
+            return directRate;
+        }
+
+        // Look for inverse rate: toCurrency -> fromCurrency
+        var inverseRate = _fxRates.FirstOrDefault(r => 
+            r.CurrencyCodeA == toCurrency.ToString() && r.CurrencyCodeB == fromCurrency.ToString());
+        
+        if (inverseRate != null)
+        {
+            // Return inverse rate (1/rate)
+            return new FxRate
+            {
+                CurrencyCodeA = fromCurrency.ToString(),
+                CurrencyCodeB = toCurrency.ToString(),
+                Rate = 1m / inverseRate.Rate
+            };
+        }
+
+        return null;
+    }
+
+    private async Task LoadFxRatesIfNecessary()
+    {
+        // Only load once if not already loaded
+        if (_fxRates != null)
+        {
+            return;
+        }
+
+        Console.Write("Requesting FX rates... ");
+        
+        try
+        {
+            _fxRates = await _irClient.GetFxRatesAsync();
+            Console.WriteLine($"{_fxRates?.Count() ?? 0} FX rates received");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching FX rates: {ex.Message}");
+            _fxRates = null;
+        }
     }
 }
